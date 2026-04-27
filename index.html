@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background com Linhas Decorativas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000000;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* CONTAINER DO TEXTO COM LINHAS */
+        .texto-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* LINHA SUPERIOR */
+        .linha-superior {
+            width: 350px;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                white 20%, 
+                white 80%, 
+                transparent 100%);
+            animation: linhaAparece 1s ease-out;
+        }
+
+        /* TEXTO BACKGROUND */
+        .texto {
+            font-size: 3rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            font-weight: normal;
+            animation: piscar 2s ease-in-out infinite;
+            padding: 0 30px;
+            position: relative;
+        }
+
+        /* LINHA INFERIOR */
+        .linha-inferior {
+            width: 350px;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                white 20%, 
+                white 80%, 
+                transparent 100%);
+            animation: linhaAparece 1s ease-out;
+        }
+
+        @keyframes linhaAparece {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+            to {
+                width: 350px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes piscar {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* ESTILO DOS CUBOS */
+        .cubo {
+            position: absolute;
+            bottom: -50px;
+            background: white;
+            pointer-events: none;
+            z-index: 1;
+            animation: subirGirando linear infinite;
+        }
+
+        @keyframes subirGirando {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-150vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            .texto {
+                font-size: 2rem;
+                letter-spacing: 5px;
+            }
+            .linha-superior,
+            .linha-inferior {
+                width: 250px;
+            }
+            @keyframes linhaAparece {
+                from { width: 0; }
+                to { width: 250px; }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .texto {
+                font-size: 1.5rem;
+                letter-spacing: 3px;
+            }
+            .linha-superior,
+            .linha-inferior {
+                width: 200px;
+            }
+            @keyframes linhaAparece {
+                from { width: 0; }
+                to { width: 200px; }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="texto-container">
+        <div class="linha-superior"></div>
+        <div class="texto">BACKGROUND</div>
+        <div class="linha-inferior"></div>
+    </div>
+
+    <script>
+        function criarCubo() {
+            const cubo = document.createElement('div');
+            cubo.className = 'cubo';
+            
+            const tamanho = Math.random() * 40 + 20;
+            const esquerda = Math.random() * 100;
+            const duracao = Math.random() * 5 + 3;
+            const delay = Math.random() * 3;
+            const brilho = Math.random() * 0.5 + 0.4;
+            
+            cubo.style.width = tamanho + 'px';
+            cubo.style.height = tamanho + 'px';
+            cubo.style.left = esquerda + '%';
+            cubo.style.animationDuration = duracao + 's';
+            cubo.style.animationDelay = delay + 's';
+            cubo.style.opacity = brilho;
+            
+            if (tamanho > 35) {
+                cubo.style.boxShadow = '0 0 8px white';
+            }
+            
+            document.body.appendChild(cubo);
+            
+            setTimeout(() => {
+                if (cubo && cubo.remove) cubo.remove();
+            }, (duracao + delay) * 1000);
+        }
+        
+        setInterval(criarCubo, 100);
+        
+        for (let i = 0; i < 40; i++) {
+            setTimeout(criarCubo, i * 40);
+        }
+    </script>
+</body>
+</html>
